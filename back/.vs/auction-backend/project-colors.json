@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "dcca9959-3a7b-4165-af6c-fa4fcc75d78d": {
+      "ProjectGuid": "dcca9959-3a7b-4165-af6c-fa4fcc75d78d",
+      "DisplayName": "auction-backend",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
