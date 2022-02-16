@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>Auction System</title>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,34 +11,144 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> -->
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <!-- Required Meta Tags Always Come First -->
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+
+    <!-- Google Fonts -->
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,900"
+    />
+
+    <!-- CSS Global Compulsory -->
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/assets/vendor/bootstrap/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/assets/vendor/icon-line/css/simple-line-icons.css"
+    />
+
+    <!-- CSS Implementing Plugins -->
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/assets/vendor/icon-awesome/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/assets/vendor/icon-line-pro/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/assets/vendor/icon-hs/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/assets/vendor/dzsparallaxer/dzsparallaxer.css"
+    />
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/assets/vendor/dzsparallaxer/dzsscroller/scroller.css"
+    />
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/assets/vendor/dzsparallaxer/advancedscroller/plugin.css"
+    />
+    <link rel="stylesheet" href="%PUBLIC_URL%/assets/vendor/animate.css" />
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/assets/vendor/hamburgers/hamburgers.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/assets/vendor/hs-megamenu/src/hs.megamenu.css"
+    />
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.min.css"
+    />
+
+    <!-- CSS Unify Theme -->
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/assets/css/styles.e-commerce.css"
+    />
+
+    <!-- CSS Customization -->
+    <link rel="stylesheet" href="%PUBLIC_URL%/assets/css/custom.css" />
   </head>
+
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <!-- JS Global Compulsory -->
+    <script src="%PUBLIC_URL%/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="%PUBLIC_URL%/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+    <script src="%PUBLIC_URL%/assets/vendor/popper.js/popper.min.js"></script>
+    <script src="%PUBLIC_URL%/assets/vendor/bootstrap/bootstrap.min.js"></script>
+
+    <!-- JS Implementing Plugins -->
+    <script src="%PUBLIC_URL%/assets/vendor/jquery-ui/ui/widget.js"></script>
+    <script src="%PUBLIC_URL%/assets/vendor/jquery-ui/ui/widgets/menu.js"></script>
+    <script src="%PUBLIC_URL%/assets/vendor/jquery-ui/ui/widgets/mouse.js"></script>
+    <script src="%PUBLIC_URL%/assets/vendor/jquery-ui/ui/widgets/slider.js"></script>
+    <script src="..%PUBLIC_URL%/assets/vendor/dzsparallaxer/dzsparallaxer.js"></script>
+    <script src="%PUBLIC_URL%/assets/vendor/dzsparallaxer/dzsscroller/scroller.js"></script>
+    <script src="%PUBLIC_URL%/assets/vendor/dzsparallaxer/advancedscroller/plugin.js"></script>
+    <script src="%PUBLIC_URL%/assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
+    <script src="%PUBLIC_URL%/assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <!-- JS Unify -->
+    <script src="%PUBLIC_URL%/assets/js/hs.core.js"></script>
+    <script src="%PUBLIC_URL%/assets/js/components/hs.header.js"></script>
+    <script src="%PUBLIC_URL%/assets/js/helpers/hs.hamburgers.js"></script>
+    <script src="%PUBLIC_URL%/assets/js/components/hs.dropdown.js"></script>
+    <script src="%PUBLIC_URL%/assets/js/components/hs.scrollbar.js"></script>
+    <script src="%PUBLIC_URL%/assets/js/helpers/hs.rating.js"></script>
+    <script src="%PUBLIC_URL%/assets/js/components/hs.slider.js"></script>
+    <script src="%PUBLIC_URL%/assets/js/components/hs.go-to.js"></script>
+
+    <!-- JS Customization -->
+    <script src="%PUBLIC_URL%/assets/js/custom.js"></script>
+
+    <!-- JS Plugins Init. -->
+    <script>
+      $(document).on("ready", function () {
+        // initialization of header
+        $.HSCore.components.HSHeader.init($("#js-header"));
+        $.HSCore.helpers.HSHamburgers.init(".hamburger");
+
+        // initialization of HSMegaMenu component
+        $(".js-mega-menu").HSMegaMenu({
+          event: "hover",
+          pageContainer: $(".container"),
+          breakpoint: 991,
+        });
+
+        // initialization of HSDropdown component
+        $.HSCore.components.HSDropdown.init($("[data-dropdown-target]"), {
+          afterOpen: function () {
+            $(this).find('input[type="search"]').focus();
+          },
+        });
+
+        // initialization of HSScrollBar component
+        $.HSCore.components.HSScrollBar.init($(".js-scrollbar"));
+
+        // initialization of go to
+        $.HSCore.components.HSGoTo.init(".js-go-to");
+
+        // initialization of rating
+        $.HSCore.helpers.HSRating.init();
+
+        // initialization of range slider
+        $.HSCore.components.HSSlider.init("#rangeSlider1");
+      });
+    </script>
+
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>
