@@ -1,0 +1,7 @@
+.dropdown-toggle::after {
+  display: none !important;
+}
+.navbar-expand .navbar-nav {
+  justify-content: center;
+  align-items: center;
+}
