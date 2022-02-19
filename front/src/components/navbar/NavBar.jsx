@@ -90,7 +90,7 @@ const NavBar = () => {
               }
               id="navbarScrollingDropdown"
               style={LinkStyles}
-              {...(Location.includes("user") || Location.includes("myauctions")
+              {...(Location.includes("login") || Location.includes("myauctions")
                 ? inputProps
                 : {})}
             >
