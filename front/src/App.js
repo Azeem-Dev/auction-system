@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
 import NavBar from "./components/navbar/NavBar";
+import AddCategory from "./pages/AddCategory";
 import AdminLogin from "./pages/AdminLogin";
 import Auctions from "./pages/Auctions";
 import Category from "./pages/Category";
@@ -10,6 +11,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Product from "./pages/Product";
 import Register from "./pages/Register";
+import Sell from "./pages/Sell";
+import SellerAuctions from "./pages/SellerAuctions";
 
 function App() {
   return (
@@ -34,6 +37,9 @@ const Layout = () => (
       <Route path="/login" element={<Login />} />
       <Route path="/login/admin" element={<AdminLogin />} />
       <Route path="/product/:productId" element={<Product />} />
+      <Route path="/sell" element={<Sell />} />
+      <Route path="/myauctions" element={<SellerAuctions />} />
+      <Route path="/add-category" element={<AddCategory />} />
     </Routes>
     <Footer />
   </>

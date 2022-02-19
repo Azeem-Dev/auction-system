@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { UserOutlined, LoginOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  DollarOutlined,
+} from "@ant-design/icons";
 import Logo from "../../assets/imgs/logo192.png";
 import "./NavBar.css";
 import CategoriesDropdown from "../CategoriesDropdown/CategoriesDropdown";
@@ -50,6 +55,19 @@ const NavBar = () => {
                 Featured
               </Link>
             </Nav.Link>
+            <Nav.Link as="div" {...(Location == "/sell" ? inputProps : {})}>
+              <Link to="/sell" style={LinkStyles}>
+                Sell
+              </Link>
+            </Nav.Link>
+            <Nav.Link
+              as="div"
+              {...(Location == "/add-category" ? inputProps : {})}
+            >
+              <Link to="/add-category" style={LinkStyles}>
+                Add Category
+              </Link>
+            </Nav.Link>
             <Nav.Link
               as="div"
               {...(Location.includes("categories") ? inputProps : {})}
@@ -72,7 +90,9 @@ const NavBar = () => {
               }
               id="navbarScrollingDropdown"
               style={LinkStyles}
-              {...(Location.includes("user") ? inputProps : {})}
+              {...(Location.includes("user") || Location.includes("myauctions")
+                ? inputProps
+                : {})}
             >
               <NavDropdown.Item
                 style={{ display: "inline-flex", alignItems: "center" }}
@@ -90,6 +110,15 @@ const NavBar = () => {
                 <Link to="/login/admin" style={LinkStyles}>
                   <LoginOutlined style={{ marginRight: "10px" }} />
                   Admin Login
+                </Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                style={{ display: "inline-flex", alignItems: "center" }}
+                as="div"
+              >
+                <Link to="/myauctions" style={LinkStyles}>
+                  <DollarOutlined style={{ marginRight: "10px" }} />
+                  My Auctions
                 </Link>
               </NavDropdown.Item>
               <NavDropdown.Item

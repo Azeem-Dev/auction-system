@@ -35,7 +35,7 @@ const Slider = () => {
         effect="fade"
         loop
         autoplay={{
-          delay: 1000,
+          delay: 5000,
           disableOnInteraction: false,
         }}
       >

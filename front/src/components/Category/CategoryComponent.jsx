@@ -8,7 +8,7 @@ const CategoryComponent = ({ categoryId, subcategoryid }) => {
   };
   return (
     <>
-      <Container>
+      <Container style={{ padding: "0 100px" }}>
         <Row style={{ marginBottom: "30px" }}>
           <Col>
             <FeaturedProduct />
