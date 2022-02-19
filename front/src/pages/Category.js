@@ -7,7 +7,7 @@ const Category = () => {
     <div
       style={{
         margin: "100px 0",
-        padding: "0 50px",
+        padding: "0 100px",
         width: "100%",
         height: "100%",
       }}

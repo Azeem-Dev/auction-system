@@ -1,9 +1,9 @@
 import "./Hero.css";
-import { FireOutlined } from "@ant-design/icons";
-import { Button, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import Timer from "../Timer/Timer";
+import BidNowButton from "../BidNowButton/BidNowButton";
 
-const Hero = () => {
+const Hero = ({ ImgUrl }) => {
   return (
     <>
       <Card
@@ -11,11 +11,13 @@ const Hero = () => {
         style={{
           width: "100%",
           height: "70vh",
+          borderRadius: "0"
         }}
       >
         <Card.Img
-          src="https://images.unsplash.com/photo-1645090531478-49b4077958cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+          src={ImgUrl}
           alt="Card image"
+          style={{ objectFit: "cover", width: "100%", height: "100%" }}
         />
         <Card.ImgOverlay
           style={{
@@ -36,19 +38,7 @@ const Hero = () => {
             lead-into additional content. This content is a little bit longer.
           </Card.Text>
           <Timer />
-          <button
-            className="button button2"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <FireOutlined
-              style={{ color: "#EF2D56", fontSize: "20px", margin: "0 10px" }}
-            />{" "}
-            Bid Now
-          </button>
+          <BidNowButton />
         </Card.ImgOverlay>
       </Card>
     </>

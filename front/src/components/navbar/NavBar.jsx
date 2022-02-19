@@ -23,9 +23,9 @@ const NavBar = () => {
   useEffect(() => {}, [Location]);
   return (
     <>
-      <Navbar bg="primary" variant="dark" sticky="top">
+      <Navbar bg="primary" variant="dark" sticky="top" style={{}}>
         <Container>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand as="div">
             <img
               src={Logo}
               width="30"
@@ -75,28 +75,31 @@ const NavBar = () => {
               {...(Location.includes("user") ? inputProps : {})}
             >
               <NavDropdown.Item
-                href="#action3"
                 style={{ display: "inline-flex", alignItems: "center" }}
                 as="div"
               >
-                <LoginOutlined style={{ marginRight: "10px" }} />
-                Login
+                <Link to="/login" style={LinkStyles}>
+                  <LoginOutlined style={{ marginRight: "10px" }} />
+                  Login
+                </Link>
               </NavDropdown.Item>
               <NavDropdown.Item
-                href="#action3"
                 style={{ display: "inline-flex", alignItems: "center" }}
                 as="div"
               >
-                <LoginOutlined style={{ marginRight: "10px" }} />
-                Admin Login
+                <Link to="/login/admin" style={LinkStyles}>
+                  <LoginOutlined style={{ marginRight: "10px" }} />
+                  Admin Login
+                </Link>
               </NavDropdown.Item>
               <NavDropdown.Item
-                href="#action4"
                 style={{ display: "inline-flex", alignItems: "center" }}
                 as="div"
               >
-                <LogoutOutlined style={{ marginRight: "10px" }} />
-                Logout
+                <Link to="/logout" style={LinkStyles}>
+                  <LogoutOutlined style={{ marginRight: "10px" }} />
+                  Logout
+                </Link>
               </NavDropdown.Item>
             </NavDropdown>
             <Nav.Link as="div" {...(Location == "/register" ? inputProps : {})}>

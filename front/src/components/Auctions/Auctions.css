@@ -1,0 +1,20 @@
+.bid-now-list-button {
+  transition: all 0.5s;
+}
+.bid-now-list-button:hover {
+  transform: scale(1.1);
+  color: #f50;
+}
+.auctions-heading {
+  position: relative;
+  margin-bottom: 100px;
+}
+.auctions-heading::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -15px;
+  height: 2px;
+  width: 150px;
+  background: #007aff;
+}

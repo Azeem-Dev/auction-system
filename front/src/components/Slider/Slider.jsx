@@ -29,23 +29,27 @@ const Slider = () => {
         navigation
         pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
-        delay={500}
         onSwiper={(swiper) => console.log(swiper)}
         onSlideChange={() => console.log("slide change")}
         style={{ width: "100%", height: "100%" }}
         effect="fade"
+        loop
+        autoplay={{
+          delay: 1000,
+          disableOnInteraction: false,
+        }}
       >
         <SwiperSlide>
-          <Hero />
+          <Hero ImgUrl="https://images.unsplash.com/photo-1645090531478-49b4077958cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" />
         </SwiperSlide>
         <SwiperSlide>
-          <Hero />
+          <Hero ImgUrl="https://images.unsplash.com/photo-1645120578522-16c6debcc1c0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" />
         </SwiperSlide>
         <SwiperSlide>
-          <Hero />
+          <Hero ImgUrl="https://images.unsplash.com/photo-1640622303392-7d2bee0c2438?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" />
         </SwiperSlide>
         <SwiperSlide>
-          <Hero />
+          <Hero ImgUrl="https://images.unsplash.com/photo-1645095542177-125b3e224eef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" />
         </SwiperSlide>
         {/* <span slot="container-start">Container Start</span>
         <span slot="container-end">Container End</span>
