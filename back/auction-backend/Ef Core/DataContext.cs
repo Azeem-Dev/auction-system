@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using auction_backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace auction_backend.Ef_Core
 {
@@ -13,11 +14,7 @@ namespace auction_backend.Ef_Core
         {
 
         }
-        //public DbSet<UserEntity> Users { get; set; }
-        //public DbSet<LinkEntity> Links { get; set; }
-        //public DbSet<CategoryEntity> Categories { get; set; }
-        //public DbSet<LinkCategoryEntity> LinkCategories { get; set; }
-        //public DbSet<SubCategoryEntity> SubCategories { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
