@@ -1,11 +1,54 @@
 {
   "Version": 1,
-  "Hash": "TS/NKMaKOhVKrx+cM+yBMFTxiV2NI2tOVzXUF7g18j4=",
+  "Hash": "rfH7Y4vmON/FSKej3NeKgRZqwKW/vZdsvypWL8DfLFE=",
   "Source": "auction-backend",
   "BasePath": "_content/auction-backend",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "auction-backend\\wwwroot",
+      "Source": "auction-backend",
+      "ContentRoot": "C:\\Users\\azeem\\Desktop\\EXTERNAL_WORK\\FYPS\\AUCTION_SYSTEM\\back\\auction-backend\\wwwroot\\",
+      "BasePath": "_content/auction-backend",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\azeem\\Desktop\\EXTERNAL_WORK\\FYPS\\AUCTION_SYSTEM\\back\\auction-backend\\wwwroot\\uploads\\my-pic.png",
+      "SourceId": "auction-backend",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\azeem\\Desktop\\EXTERNAL_WORK\\FYPS\\AUCTION_SYSTEM\\back\\auction-backend\\wwwroot\\",
+      "BasePath": "_content/auction-backend",
+      "RelativePath": "uploads/my-pic.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\my-pic.png"
+    },
+    {
+      "Identity": "C:\\Users\\azeem\\Desktop\\EXTERNAL_WORK\\FYPS\\AUCTION_SYSTEM\\back\\auction-backend\\wwwroot\\uploads\\susan-wilkinson-Zk2wncK1nPU-unsplash.jpg",
+      "SourceId": "auction-backend",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\azeem\\Desktop\\EXTERNAL_WORK\\FYPS\\AUCTION_SYSTEM\\back\\auction-backend\\wwwroot\\",
+      "BasePath": "_content/auction-backend",
+      "RelativePath": "uploads/susan-wilkinson-Zk2wncK1nPU-unsplash.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\susan-wilkinson-Zk2wncK1nPU-unsplash.jpg"
+    }
+  ]
 }

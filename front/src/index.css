@@ -8,3 +8,13 @@
   font-size: 16px !important;
   color: inherit !important;
 }
+.ant-upload.ant-upload-select-picture-card{
+  width: 250px !important;
+  height: 250px !important;
+}
+.ant-upload-picture-card-wrapper{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}

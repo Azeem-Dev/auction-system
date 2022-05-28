@@ -25,3 +25,4 @@ C:\Users\azeem\Desktop\EXTERNAL_WORK\FYPS\AUCTION_SYSTEM\back\auction-backend\ob
 C:\Users\azeem\Desktop\EXTERNAL_WORK\FYPS\AUCTION_SYSTEM\back\auction-backend\obj\Debug\net6.0\ref\auction-backend.dll
 C:\Users\azeem\Desktop\EXTERNAL_WORK\FYPS\AUCTION_SYSTEM\back\auction-backend\obj\Debug\net6.0\auction-backend.pdb
 C:\Users\azeem\Desktop\EXTERNAL_WORK\FYPS\AUCTION_SYSTEM\back\auction-backend\obj\Debug\net6.0\auction-backend.genruntimeconfig.cache
+C:\Users\azeem\Desktop\EXTERNAL_WORK\FYPS\AUCTION_SYSTEM\back\auction-backend\bin\Debug\net6.0\auction-backend.staticwebassets.runtime.json
