@@ -35,7 +35,7 @@ namespace auction_backend.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<bool>> Register(RegisterRequest req)
         {
-            if (_db.Users.Any(c => c.Email.ToLower() == req.Email.ToLower() || c.UserName.ToLower() == req.UserName.ToLower())) return BadRequest();
+            if (_db.Users.Any(c => c.Email.ToLower() == req.Email.ToLower() || c.UserName.ToLower() == req.UserName.ToLower())) return BadRequest("User Already Exists");
 
             var user = new User
             {
@@ -49,7 +49,7 @@ namespace auction_backend.Controllers
 
             await _db.AddAsync<User>(user);
             await _db.SaveChangesAsync();
-            return Ok();
+            return Ok(true);
         }
 
     }

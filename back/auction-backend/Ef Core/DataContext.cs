@@ -26,6 +26,7 @@ namespace auction_backend.Ef_Core
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<ItemCategories>().HasKey(ic => new { ic.AuctionItemId, ic.CategoryId });
         }
 
         public DbSet<User> Users { get; set; }
@@ -33,6 +34,8 @@ namespace auction_backend.Ef_Core
         public DbSet<Category> Categories { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Bid> Bids { get; set; }
+        public DbSet<ItemCategories> ItemCategories { get; set; }
+        
 
 
     }

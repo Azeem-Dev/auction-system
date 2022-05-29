@@ -49,5 +49,44 @@ namespace auction_backend.Controllers
         {
             return Ok(await _db.Categories.Include(c => c.SubCategories).Select(c => new { c.Id, c.Name, subcategories = c.SubCategories.Select(d => new { d.Id, d.Name }).ToList() }).ToListAsync());
         }
+        [HttpPost("AddCategoryToAuctionItem")]
+        public async Task<ActionResult<bool>> AddCategoryToAuctionItem(AddCategoryToAuctionItemReq req)
+        {
+            foreach (var categoryId in req.CategoryIds)
+            {
+                if (!_db.ItemCategories.Any(c => c.AuctionItemId == req.AuctionItemId && c.CategoryId == categoryId))
+                {
+                    await _db.ItemCategories.AddAsync(new Models.ItemCategories
+                    {
+                        AuctionItemId = req.AuctionItemId,
+                        CategoryId = categoryId
+                    });
+                }
+
+            }
+            await _db.SaveChangesAsync();
+            return Ok();
+
+        }
+        [HttpPost("UpdateAsCategory/{id}")]
+        public async Task<ActionResult<bool>> UpdateAsCategory(string name, int id)
+        {
+            var subcategory = await _db.SubCategories.FirstOrDefaultAsync(c => c.Id == id);
+            var newCategory = new Models.Category
+            {
+                Name = subcategory.Name,
+            };
+            _db.Categories.Add(newCategory);
+            await _db.SaveChangesAsync();
+            _db.SubCategories.Add(new Models.SubCategory
+            {
+                Name = name.ToLower(),
+                CategoryId = newCategory.Id
+            });
+            await _db.SaveChangesAsync();
+            _db.SubCategories.Remove(subcategory);
+            await _db.SaveChangesAsync();
+            return Ok(true);
+        }
     }
 }

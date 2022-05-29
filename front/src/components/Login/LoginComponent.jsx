@@ -1,11 +1,36 @@
-import { Input } from "antd";
+import { Input, message } from "antd";
 import {
   UserOutlined,
   EyeTwoTone,
   EyeInvisibleOutlined,
 } from "@ant-design/icons";
 import { Button } from "react-bootstrap";
-const LoginComponent = () => {
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { postUtil } from "../../utils/api/auction-system-api";
+const LoginComponent = ({ isAdmin = false }) => {
+  const [usernameOrEmail, setUserNameOrEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const Login = () => {
+    if (usernameOrEmail != "" && password != "") {
+      let apiUrl = isAdmin ? "auth/admin-login" : "auth/login";
+      postUtil(apiUrl, {
+        usernameOrEmail,
+        password,
+      })
+        .then((c) => {
+          if (c.data) navigate("/home");
+        })
+        .catch((err) => {
+          message.error(err.response.data);
+          console.log("err", err);
+        });
+    } else {
+      message.error("All Fields are required");
+    }
+  };
   return (
     <div
       style={{
@@ -19,9 +44,11 @@ const LoginComponent = () => {
       <div style={{ width: "50%" }} className="right">
         <Input
           size="large"
-          placeholder="Username"
+          placeholder="Username/Email"
           prefix={<UserOutlined />}
           style={{ margin: "10px 0" }}
+          value={usernameOrEmail}
+          onChange={(e) => setUserNameOrEmail(e.target.value)}
         />
         <Input.Password
           size="large"
@@ -30,6 +57,8 @@ const LoginComponent = () => {
             visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
           }
           style={{ margin: "10px 0" }}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </div>
       <Button
@@ -39,6 +68,7 @@ const LoginComponent = () => {
           fontSize: "18px",
           fontWeight: "400",
         }}
+        onClick={Login}
       >
         Login
       </Button>

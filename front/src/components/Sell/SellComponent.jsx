@@ -3,6 +3,7 @@ import { AccountBookOutlined, DollarOutlined } from "@ant-design/icons";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import { useState } from "react";
+import { baseURL } from "../../utils/api/auction-system-api";
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
@@ -135,7 +136,7 @@ const SellComponent = () => {
           listType="picture-card"
           className="avatar-uploader"
           showUploadList={false}
-          action="https://localhost:7131/api/upload"
+          action={`${baseURL}upload`}
           beforeUpload={beforeUpload}
           onChange={handleChange}
         >

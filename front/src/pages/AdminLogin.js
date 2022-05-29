@@ -16,7 +16,7 @@ const AdminLogin = () => {
       >
         Admin Login
       </h1>
-      <LoginComponent />
+      <LoginComponent isAdmin={true}/>
     </div>
   );
 };

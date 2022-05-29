@@ -8,5 +8,6 @@
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public decimal HigestBid { get; set; }
+        public byte[] Image { get; set; }
     }
 }

@@ -45,7 +45,8 @@ namespace auction_backend.Controllers
                 Description = c.ProductDescription,
                 EndDate = c.AuctionEndDate,
                 StartDate = c.AuctionStartDate,
-                HigestBid = c.AuctionBids.Select(d => d.BidPrice).Max()
+                HigestBid = c.AuctionBids.Select(d => d.BidPrice).Max(),
+                Image= System.IO.File.ReadAllBytes(c.ImagePath)
             }));
         }
         [HttpGet("GetUserAuctionItems/{userId}")]

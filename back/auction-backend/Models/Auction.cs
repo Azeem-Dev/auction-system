@@ -11,5 +11,6 @@
         public string AuctionEndDate { get; set; }
         public string ImagePath { get; set; }
         public List<Bid> AuctionBids { get; set; }
+        public List<ItemCategories> ItemCategories { get; set; }
     }
 }
