@@ -10,5 +10,8 @@
         public string UserType { get; set; }
         public string Address { get; set; }
         public bool IsAdmin { get; set; } = false;
+        public List<Auction> UserAuctions { get; set; }
+        public List<Bid> AuctionBids { get; set; }
+
     }
 }

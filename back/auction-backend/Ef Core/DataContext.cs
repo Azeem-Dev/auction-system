@@ -15,6 +15,10 @@ namespace auction_backend.Ef_Core
 
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Auction> Auctions { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
+        public DbSet<Bid> Bids { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
