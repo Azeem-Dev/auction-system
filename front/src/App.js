@@ -28,7 +28,7 @@ const Layout = () => (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/auctions" element={<Auctions />} />
-      <Route path="/featured" element={<Featured />} />
+      {/* <Route path="/featured" element={<Featured />} /> */}
       <Route path="/categories" element={<Category />}>
         <Route path=":categoryId" element={<Category />} />
         <Route path="subcategory/:subcategoryId" element={<Category />} />

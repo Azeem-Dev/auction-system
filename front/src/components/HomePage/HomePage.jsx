@@ -109,7 +109,11 @@ const HomePageComponent = () => {
       {/*  FEATURED PRODUCTS END */}
       {/* TOP ITEMS */}
       <div style={{ margin: "100px 0 300px 0" }}>
-        <TopItem />
+        <TopItem
+          randomItem={
+            featuredItems[Math.floor(Math.random() * featuredItems.length)]
+          }
+        />
       </div>
       {/* TOP ITEMS END */}
     </div>

@@ -1,5 +1,6 @@
 ﻿using auction_backend.Dtos;
 using auction_backend.Ef_Core;
+using auction_backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -71,6 +72,31 @@ namespace auction_backend.Controllers
                     Name = d.ProductName
                 }))
 
+                );
+        }
+
+        [HttpGet("GetAllAuctions")]
+        public async Task<ActionResult<object>> GetAllAuctions()
+        {
+            var auctions = _db.Auctions.Include(c => c.ItemCategories).ThenInclude(c => c.Category).ThenInclude(c => c.SubCategories).Include(c => c.AuctionBids);
+            return Ok(
+                auctions.Select(c => new
+                {
+                    Id = c.Id,
+                    ProductName = c.ProductName,
+                    Description = c.ProductDescription,
+                    Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), c.ImagePath)),
+                    Categories = c.ItemCategories.Select(d => new Category
+                    {
+                        Id = d.CategoryId,
+                        Name = d.Category.Name,
+                        SubCategories = d.Category.SubCategories.Select(e => new Models.SubCategory
+                        {
+                            Id = e.Id,
+                            Name = e.Name
+                        }).ToList()
+                    })
+                })
                 );
         }
     }

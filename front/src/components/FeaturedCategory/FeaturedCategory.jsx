@@ -1,13 +1,15 @@
 import { Card, Tag } from "antd";
+import { useNavigate } from "react-router-dom";
 import Meta from "antd/lib/card/Meta";
 
 const FeaturedCategory = ({ featuredCategory }) => {
+  const navigate = useNavigate();
   console.log(featuredCategory);
   return (
     <>
       {" "}
       <Card
-        onClick={() => console.log("test")}
+        onClick={() => navigate("/categories/" + featuredCategory?.categoryId)}
         hoverable
         style={{ width: 240 }}
         cover={

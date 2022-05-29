@@ -101,5 +101,12 @@ namespace auction_backend.Controllers
             });
             return Ok(categoryItems);
         }
+
+        [HttpGet("GetAuctionItemsByCategoryId/{id}")]
+        public async Task<ActionResult<object>> GetAuctionItemsByCategoryId([FromRoute]int id)
+        {
+            //_db.ItemCategories.Inc
+            return Ok();
+        }
     }
 }

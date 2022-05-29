@@ -50,11 +50,11 @@ const NavBar = () => {
                 Auctions
               </Link>
             </Nav.Link>
-            <Nav.Link as="div" {...(Location == "/featured" ? inputProps : {})}>
+            {/* <Nav.Link as="div" {...(Location == "/featured" ? inputProps : {})}>
               <Link to="/featured" style={LinkStyles}>
                 Featured
               </Link>
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link as="div" {...(Location == "/sell" ? inputProps : {})}>
               <Link to="/sell" style={LinkStyles}>
                 Sell

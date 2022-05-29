@@ -3,7 +3,8 @@ import { Button, Figure } from "react-bootstrap";
 import Timer from "../Timer/Timer";
 
 const { Panel } = Collapse;
-const TopItem = () => {
+const TopItem = ({ randomItem }) => {
+  console.log(randomItem);
   return (
     <div
       style={{
@@ -21,13 +22,10 @@ const TopItem = () => {
         style={{ display: "flex", flexDirection: "column", flex: "1" }}
       >
         <h3 style={{ fontSize: "70px", fontWeight: "500" }}>
-          Leather
-          <br />
-          <span style={{ paddingLeft: "20px" }}>Gloves</span>
+          {randomItem?.name}
         </h3>
         <p style={{ fontSize: "20px", fontWeight: "300" }}>
-          We want to create a range of beautiful, practical and modern outerwear
-          that doesn't cost the earth.
+          {randomItem?.description}
         </p>
         <Button
           variant="primary"
@@ -38,7 +36,10 @@ const TopItem = () => {
         <Timer />
         <Collapse accordion ghost expandIconPosition="right">
           <Panel header="Current Highest Bid" key="1">
-            <p>The Highest Bid for this Product Currently is ($23.3)</p>
+            <p>
+              The Highest Bid for this Product Currently is ($
+              {randomItem?.higestBid})
+            </p>
           </Panel>
         </Collapse>
       </div>
@@ -49,9 +50,9 @@ const TopItem = () => {
             width={350}
             height={350}
             alt="171x180"
-            src="https://images.unsplash.com/photo-1525304937537-4d586f394674?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
+            src={`data:image/jpeg;base64,${randomItem?.image}`}
           />
-          <Figure.Caption>Leather Gloves</Figure.Caption>
+          <Figure.Caption>{randomItem?.name}</Figure.Caption>
         </Figure>
       </div>
     </div>

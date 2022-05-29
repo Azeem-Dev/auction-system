@@ -1,36 +1,20 @@
 import "./Auctions.css";
-import { List, Avatar, Space, Tag } from "antd";
+import { List, Avatar, Space, Tag, message } from "antd";
 import { FireOutlined } from "@ant-design/icons";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getUtil } from "../../utils/api/auction-system-api";
 const AuctionsComponent = () => {
-  const listData = [];
-  for (let i = 0; i < 23; i++) {
-    listData.push({
-      id: i,
-      href: "https://ant.design",
-      title: `Item Name`,
-      avatar: "https://joeschmoe.io/api/v1/random",
-      tags: [
-        <Tag color="magenta">magenta</Tag>,
-        <Tag color="red">red</Tag>,
-        <Tag color="volcano">volcano</Tag>,
-        <Tag color="orange">orange</Tag>,
-        <Tag color="gold">gold</Tag>,
-        <Tag color="lime">lime</Tag>,
-        <Tag color="green">green</Tag>,
-        <Tag color="cyan">cyan</Tag>,
-        <Tag color="blue">blue</Tag>,
-        <Tag color="geekblue">geekblue</Tag>,
-        <Tag color="purple">purple</Tag>,
-        <Tag color="#f50">#f50</Tag>,
-        <Tag color="#2db7f5">#2db7f5</Tag>,
-        <Tag color="#87d068">#87d068</Tag>,
-        <Tag color="#108ee9">#108ee9</Tag>,
-      ],
-      content:
-        "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
-    });
-  }
+  const [listData, setListData] = useState([{}]);
+
+  useEffect(() => {
+    getUtil("auctions/GetAllAuctions")
+      .then((c) => {
+        setListData(c.data);
+        console.log(c.data);
+      })
+      .catch((err) => message.error("something went wrong"));
+  }, []);
+
   const IconText = ({ icon, text }) => (
     <div
       style={{
@@ -72,17 +56,25 @@ const AuctionsComponent = () => {
             extra={
               <img
                 width={272}
-                alt="logo"
-                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                height={272}
+                src={`data:image/jpeg;base64,${item?.image}`}
+                style={{ objectFit: "cover" }}
               />
             }
           >
             <List.Item.Meta
-              avatar={<Avatar src={item.avatar} />}
-              title={<a href={item.href}>{item.title}</a>}
-              description={item.tags.map((tag) => tag)}
+              avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+              title={<a>{item?.productName}</a>}
+              description={item?.categories?.map((cat) => {
+                <>
+                  <Tag color="green">{cat.name}</Tag>
+                  {cat?.subcategories?.map((subcat) => (
+                    <Tag color="green">{subcat.name}</Tag>
+                  ))}
+                </>;
+              })}
             />
-            {item.content}
+            {item?.description}
           </List.Item>
         )}
       />
