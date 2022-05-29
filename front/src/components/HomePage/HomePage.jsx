@@ -1,5 +1,7 @@
-import { Card } from "antd";
+import { Card, message } from "antd";
 import Meta from "antd/lib/card/Meta";
+import { useState, useEffect } from "react";
+import { getUtil } from "../../utils/api/auction-system-api";
 import FeaturedCategory from "../FeaturedCategory/FeaturedCategory";
 import FeaturedProduct from "../FeaturedProduct/FeaturedProduct";
 import NewArrivals from "../NewArrivals/NewArrivals";
@@ -8,6 +10,21 @@ import TopItem from "../TopItem/TopItem";
 import "./HomePage.css";
 
 const HomePageComponent = () => {
+  const [featuredCategories, setFeaturedCategories] = useState([{}]);
+  const [featuredItems, setFeaturedItems] = useState([{}]);
+
+  useEffect(() => {
+    getUtil("categories/GetFeaturedProductsWithCategories")
+      .then((c) => setFeaturedCategories(c.data))
+      .catch((err) => message.error("Something went wrong"));
+
+    getUtil("Auctions/GetFeaturedAuctionItems/3")
+      .then((c) => {
+        console.log(c);
+        setFeaturedItems(c.data);
+      })
+      .catch((err) => message.error("some error"));
+  }, []);
   return (
     <div>
       {/* HERO START */}
@@ -47,9 +64,9 @@ const HomePageComponent = () => {
             justifyContent: "space-evenly",
           }}
         >
-          <FeaturedCategory />
-          <FeaturedCategory />
-          <FeaturedCategory />
+          {featuredCategories?.map((featuredCategory) => (
+            <FeaturedCategory featuredCategory={featuredCategory} />
+          ))}
         </div>
       </div>
 
@@ -83,9 +100,9 @@ const HomePageComponent = () => {
             justifyContent: "space-evenly",
           }}
         >
-          <FeaturedProduct />
-          <FeaturedProduct />
-          <FeaturedProduct />
+          {featuredItems?.map((item) => (
+            <FeaturedProduct item={item} />
+          ))}
         </div>
       </div>
 

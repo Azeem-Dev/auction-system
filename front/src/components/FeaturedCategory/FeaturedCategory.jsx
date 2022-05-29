@@ -1,7 +1,8 @@
-import { Card } from "antd";
+import { Card, Tag } from "antd";
 import Meta from "antd/lib/card/Meta";
 
-const FeaturedCategory = () => {
+const FeaturedCategory = ({ featuredCategory }) => {
+  console.log(featuredCategory);
   return (
     <>
       {" "}
@@ -12,12 +13,15 @@ const FeaturedCategory = () => {
         cover={
           <img
             alt="example"
-            src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+            src={`data:image/jpeg;base64,${featuredCategory?.image}`}
             style={{ opacity: "0.8" }}
           />
         }
       >
-        <Meta title="Europe Street beat" description="www.instagram.com" />
+        <Meta
+          title={featuredCategory?.productName}
+          description={<Tag color="#f50">{featuredCategory?.categoryName}</Tag>}
+        />
       </Card>
     </>
   );

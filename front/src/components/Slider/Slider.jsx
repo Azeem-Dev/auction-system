@@ -11,7 +11,21 @@ import "swiper/css/bundle";
 import "swiper/css/effect-fade";
 import "swiper/css/autoplay";
 import Hero from "../Hero/Hero";
+import { useEffect, useState } from "react";
+import { getUtil } from "../../utils/api/auction-system-api";
+import { message } from "antd";
 const Slider = () => {
+  const [featuredItems, setFeaturedItems] = useState([{}]);
+  useEffect(() => {
+    getUtil("Auctions/GetFeaturedAuctionItems/3")
+      .then((c) => {
+        console.log(c);
+        setFeaturedItems(c.data);
+      })
+      .catch((err) => message.error("some error"));
+
+    console.log(featuredItems);
+  }, []);
   return (
     <>
       <Swiper
@@ -39,18 +53,11 @@ const Slider = () => {
           disableOnInteraction: false,
         }}
       >
-        <SwiperSlide>
-          <Hero ImgUrl="https://images.unsplash.com/photo-1645090531478-49b4077958cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Hero ImgUrl="https://images.unsplash.com/photo-1645120578522-16c6debcc1c0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Hero ImgUrl="https://images.unsplash.com/photo-1640622303392-7d2bee0c2438?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Hero ImgUrl="https://images.unsplash.com/photo-1645095542177-125b3e224eef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" />
-        </SwiperSlide>
+        {featuredItems?.map((item) => (
+          <SwiperSlide>
+            <Hero ImgUrl={`data:image/jpeg;base64,${item.image}`} item={item} />
+          </SwiperSlide>
+        ))}
         {/* <span slot="container-start">Container Start</span>
         <span slot="container-end">Container End</span>
         <span slot="wrapper-start">Wrapper Start</span>

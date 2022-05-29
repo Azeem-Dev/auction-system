@@ -88,5 +88,18 @@ namespace auction_backend.Controllers
             await _db.SaveChangesAsync();
             return Ok(true);
         }
+        [HttpGet("GetFeaturedProductsWithCategories")]
+        public async Task<ActionResult<object>> GetFeaturedProductsWithCategories()
+        {
+            var categoryItems = _db.ItemCategories.Include(c => c.AuctionItem).Include(c => c.Category).OrderBy(r => Guid.NewGuid()).Take(3).Select(c => new
+            {
+                ProductName = c.AuctionItem.ProductName,
+                ProductId = c.AuctionItemId,
+                CategoryName = c.Category.Name,
+                CategoryId = c.CategoryId,
+                Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), c.AuctionItem.ImagePath))
+            });
+            return Ok(categoryItems);
+        }
     }
 }

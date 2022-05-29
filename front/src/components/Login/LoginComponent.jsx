@@ -21,7 +21,8 @@ const LoginComponent = ({ isAdmin = false }) => {
         password,
       })
         .then((c) => {
-          if (c.data) navigate("/home");
+          localStorage.setItem("userId", c.data);
+          navigate("/home");
         })
         .catch((err) => {
           message.error(err.response.data);

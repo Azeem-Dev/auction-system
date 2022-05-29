@@ -21,7 +21,7 @@ namespace auction_backend.Controllers
         {
             var user = _db.Users.Include(c => c.UserAuctions).FirstOrDefault(c => c.Id == req.UserId);
             if (user == null) return BadRequest();
-            user.UserAuctions.Add(new Models.Auction
+            var auctionItem = new Models.Auction
             {
                 ProductName = req.ProductName,
                 StartingBid = req.StartingBid,
@@ -31,6 +31,13 @@ namespace auction_backend.Controllers
                 AuctionEndDate = req.EndDate,
                 ProductDescription = req.ProductDescription
 
+            };
+            user.UserAuctions.Add(auctionItem);
+            await _db.SaveChangesAsync();
+            _db.ItemCategories.Add(new Models.ItemCategories
+            {
+                AuctionItemId = auctionItem.Id,
+                CategoryId = req.CategoryId,
             });
             await _db.SaveChangesAsync();
             return Ok();
@@ -45,7 +52,7 @@ namespace auction_backend.Controllers
                 Description = c.ProductDescription,
                 EndDate = c.AuctionEndDate,
                 StartDate = c.AuctionStartDate,
-                HigestBid = c.AuctionBids.Select(d => d.BidPrice).Max(),
+                //HigestBid = c.AuctionBids.Select(d => d.BidPrice).Max(),
                 Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), c.ImagePath))
             }));
         }

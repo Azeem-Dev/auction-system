@@ -18,8 +18,6 @@ const AddCategoryComponent = () => {
   }, []);
 
   const AddCategory = () => {
-    debugger;
-    console.log(isSubCategory, categoryName, selectedCategory);
     let apiUrl = "";
     if (selectedCategory === 0) {
       postUtil(`Categories/?name=${categoryName}`)

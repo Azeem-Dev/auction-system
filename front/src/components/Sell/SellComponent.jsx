@@ -1,10 +1,10 @@
-import { Input, DatePicker } from "antd";
+import { Input, DatePicker, Select } from "antd";
 import { Button } from "react-bootstrap";
 import { AccountBookOutlined, DollarOutlined } from "@ant-design/icons";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
-import { useState } from "react";
-import { baseURL, postUtil } from "../../utils/api/auction-system-api";
+import { useEffect, useState } from "react";
+import { baseURL, getUtil, postUtil } from "../../utils/api/auction-system-api";
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
@@ -31,6 +31,7 @@ const beforeUpload = (file) => {
   return isJpgOrPng && isLt2M;
 };
 
+const { Option } = Select;
 const SellComponent = () => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
@@ -41,6 +42,15 @@ const SellComponent = () => {
   const [marketValue, setMarketValue] = useState(0.0);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  const [categories, setCategories] = useState([{}]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  useEffect(() => {
+    getUtil("categories/GetAllCategories")
+      .then((c) => setCategories(c.data))
+      .catch((err) => console.error(err));
+  }, []);
 
   const AddAuctionItem = () => {
     console.log("AddAuctionItem");
@@ -70,6 +80,7 @@ const SellComponent = () => {
           EndDate: endDate,
           ImagePath: imagePath,
           UserId: userId,
+          CategoryId:selectedCategory
         };
 
         postUtil(apiUrl, requestItem)
@@ -163,6 +174,21 @@ const SellComponent = () => {
           value={marketValue}
           onChange={(e) => setMarketValue(e.target.value)}
         />
+        <Select
+          placeholder="Select Category"
+          style={{ width: "100%", margin: "20px 0" }}
+          onSelect={(e) => {
+            setSelectedCategory(e);
+          }}
+        >
+          {categories.map((category) => {
+            return (
+              <Option value={"" + category.id} key={category.id}>
+                {category.name}
+              </Option>
+            );
+          })}
+        </Select>
         <div
           style={{
             display: "flex",

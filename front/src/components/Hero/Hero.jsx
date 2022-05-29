@@ -3,7 +3,8 @@ import { Card } from "react-bootstrap";
 import Timer from "../Timer/Timer";
 import BidNowButton from "../BidNowButton/BidNowButton";
 
-const Hero = ({ ImgUrl }) => {
+const Hero = ({ ImgUrl, item }) => {
+  console.log(item);
   return (
     <>
       <Card
@@ -11,7 +12,7 @@ const Hero = ({ ImgUrl }) => {
         style={{
           width: "100%",
           height: "70vh",
-          borderRadius: "0"
+          borderRadius: "0",
         }}
       >
         <Card.Img
@@ -29,13 +30,12 @@ const Hero = ({ ImgUrl }) => {
           }}
         >
           <Card.Title style={{ fontSize: "70px", fontWeight: "700" }}>
-            PRODUCT NAME
+            {item?.name}
           </Card.Title>
           <Card.Text
             style={{ fontSize: "26px", lineHeight: "1.2", textAlign: "center" }}
           >
-            This is a wider card with supporting text below as a natural
-            lead-into additional content. This content is a little bit longer.
+            {item?.description?.substring(0, 100)}...
           </Card.Text>
           <Timer />
           <BidNowButton />

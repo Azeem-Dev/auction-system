@@ -16,12 +16,12 @@ namespace auction_backend.Controllers
             _db = db;
         }
         [HttpPost("login")]
-        public async Task<ActionResult<bool>> Login(LoginRequest req)
+        public async Task<ActionResult<int>> Login(LoginRequest req)
         {
             var user = _db.Users.FirstOrDefault(c => c.UserName.ToLower() == req.UsernameOrEmail.ToLower() || c.Email.ToLower() == req.UsernameOrEmail.ToLower());
             if (user == null) return NotFound();
             if (user.Password.ToLower() != req.Password.ToLower()) return BadRequest();
-            return Ok(true);
+            return Ok(user.Id);
         }
         [HttpPost("admin-login")]
         public async Task<ActionResult<bool>> AdminLogin(LoginRequest req)
