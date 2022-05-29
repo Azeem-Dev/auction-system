@@ -1,9 +1,10 @@
 import { Input, DatePicker } from "antd";
+import { Button } from "react-bootstrap";
 import { AccountBookOutlined, DollarOutlined } from "@ant-design/icons";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import { useState } from "react";
-import { baseURL } from "../../utils/api/auction-system-api";
+import { baseURL, postUtil } from "../../utils/api/auction-system-api";
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
@@ -34,6 +35,49 @@ const SellComponent = () => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const [imagePath, setImagePath] = useState("");
+  const [productName, setProductName] = useState("");
+  const [productDescription, setProductDescription] = useState("");
+  const [startingBid, setStartingBid] = useState(0.0);
+  const [marketValue, setMarketValue] = useState(0.0);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
+  const AddAuctionItem = () => {
+    console.log("AddAuctionItem");
+
+    if (
+      imagePath == "" &&
+      productName == "" &&
+      productDescription == "" &&
+      startingBid == 0.0 &&
+      marketValue == 0.0 &&
+      startDate == "" &&
+      endDate == ""
+    ) {
+      message.error("All Fields are required");
+    } else {
+      let userId = localStorage.getItem("userId");
+      if (userId == null || userId == "") {
+        message.error("Please Login to add a new Auction Item");
+      } else {
+        let apiUrl = "Auctions/AddNewAuctionItem";
+        const requestItem = {
+          ProductName: productName,
+          ProductDescription: productDescription,
+          StartingBid: startingBid,
+          MarketValue: marketValue,
+          StartingDate: startDate,
+          EndDate: endDate,
+          ImagePath: imagePath,
+          UserId: userId,
+        };
+
+        postUtil(apiUrl, requestItem)
+          .then((c) => console.log(c))
+          .catch((err) => console.log(err));
+      }
+    }
+  };
 
   const handleChange = (info) => {
     console.log(info);
@@ -92,24 +136,32 @@ const SellComponent = () => {
           placeholder="Product Name"
           prefix={<AccountBookOutlined />}
           style={{ margin: "20px 0" }}
+          value={productName}
+          onChange={(e) => setProductName(e.target.value)}
         />
         <TextArea
           showCount
           maxLength={500}
           placeholder="Product Description"
           style={{ height: "120px", width: "100%" }}
+          value={productDescription}
+          onChange={(e) => setProductDescription(e.target.value)}
         />
         <Input
           size="large"
           placeholder="Starting Bid"
           prefix={<DollarOutlined />}
           style={{ margin: "20px 0" }}
+          value={startingBid}
+          onChange={(e) => setStartingBid(e.target.value)}
         />
         <Input
           size="large"
           placeholder="Market Value"
           prefix={<DollarOutlined />}
           style={{ margin: "20px 0" }}
+          value={marketValue}
+          onChange={(e) => setMarketValue(e.target.value)}
         />
         <div
           style={{
@@ -121,7 +173,10 @@ const SellComponent = () => {
         >
           <label style={{ margin: "0 0 10px 0" }}>Auction Start End Date</label>
           <RangePicker
-            onChange={(dates, datesStrings) => console.log(dates, datesStrings)}
+            onChange={(dates, datesStrings) => {
+              setStartDate(datesStrings[0]);
+              setEndDate(datesStrings[1]);
+            }}
           />
         </div>
       </div>
@@ -153,6 +208,17 @@ const SellComponent = () => {
           )}
         </Upload>
       </div>
+      <Button
+        variant="primary"
+        style={{
+          padding: "10px 40px",
+          fontSize: "18px",
+          fontWeight: "400",
+        }}
+        onClick={AddAuctionItem}
+      >
+        Submit
+      </Button>
     </div>
   );
 };

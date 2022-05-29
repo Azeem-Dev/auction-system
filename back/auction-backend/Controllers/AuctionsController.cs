@@ -30,7 +30,7 @@ namespace auction_backend.Controllers
                 AuctionStartDate = req.StartingDate,
                 AuctionEndDate = req.EndDate,
                 ProductDescription = req.ProductDescription
-                
+
             });
             await _db.SaveChangesAsync();
             return Ok();
@@ -38,7 +38,7 @@ namespace auction_backend.Controllers
         [HttpGet("GetFeaturedAuctionItems/{number}")]
         public async Task<ActionResult<List<FeaturedAuctionItemsResponse>>> GetFeaturedItems([FromRoute] int number)
         {
-            return Ok(_db.Auctions.Include(c=>c.AuctionBids).OrderBy(r => Guid.NewGuid()).Take(number).Select(c => new FeaturedAuctionItemsResponse
+            return Ok(_db.Auctions.Include(c => c.AuctionBids).OrderBy(r => Guid.NewGuid()).Take(number).Select(c => new FeaturedAuctionItemsResponse
             {
                 Id = c.Id,
                 Name = c.ProductName,
@@ -46,7 +46,7 @@ namespace auction_backend.Controllers
                 EndDate = c.AuctionEndDate,
                 StartDate = c.AuctionStartDate,
                 HigestBid = c.AuctionBids.Select(d => d.BidPrice).Max(),
-                Image= System.IO.File.ReadAllBytes(c.ImagePath)
+                Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), c.ImagePath))
             }));
         }
         [HttpGet("GetUserAuctionItems/{userId}")]
