@@ -47,11 +47,11 @@ namespace auction_backend.Controllers
         [HttpPost("UpdateAuctionItem")]
         public async Task<ActionResult<bool>> UpdateAuctionItem(AddNewAuctionItemRequest req)
         {
-            var user = _db.Users.Include(c => c.UserAuctions).ThenInclude(c=>c.ItemCategories).FirstOrDefault(c => c.Id == req.UserId);
+            var user = _db.Users.Include(c => c.UserAuctions).ThenInclude(c => c.ItemCategories).FirstOrDefault(c => c.Id == req.UserId);
             if (user == null) return BadRequest();
 
             var selectedAuction = user.UserAuctions.FirstOrDefault(c => c.Id == req.Id);
-            if(selectedAuction == null) return BadRequest();
+            if (selectedAuction == null) return BadRequest();
 
 
             selectedAuction.ProductName = req.ProductName;
@@ -59,15 +59,15 @@ namespace auction_backend.Controllers
             selectedAuction.AuctionStartDate = req.StartingDate;
             selectedAuction.AuctionEndDate = req.EndDate;
             selectedAuction.MarketValue = req.MarketValue;
-            selectedAuction.StartingBid= req.StartingBid;
+            selectedAuction.StartingBid = req.StartingBid;
             selectedAuction.ImagePath = string.IsNullOrEmpty(req.ImagePath) ? selectedAuction.ImagePath : req.ImagePath;
-            selectedAuction.ItemCategories.RemoveAll(c=>true);
+            selectedAuction.ItemCategories.RemoveAll(c => true);
             selectedAuction.ItemCategories.Add(new ItemCategories
             {
                 CategoryId = req.CategoryId,
             });
 
-            await _db.SaveChangesAsync();;
+            await _db.SaveChangesAsync(); ;
             return Ok();
         }
 
@@ -100,8 +100,8 @@ namespace auction_backend.Controllers
                 Name = d.ProductName,
                 Categories = d.ItemCategories.Select(c => c.Category.Name).ToList(),
                 Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), d.ImagePath)),
-                StartingBid= d.StartingBid,
-                MarketValue=d.MarketValue,
+                StartingBid = d.StartingBid,
+                MarketValue = d.MarketValue,
             })).ToList();
             return Ok(
 
@@ -133,6 +133,36 @@ namespace auction_backend.Controllers
                     })
                 })
                 );
+        }
+        [HttpDelete("DeleteAuction/{auctionId}/{userId}")]
+        public async Task<ActionResult<bool>> DeleteAuction(int auctionId, int userId)
+        {
+            var auction = await _db.Auctions.FindAsync(auctionId);
+            if (auction == null) return BadRequest();
+            var user = _db.Users.Include(c => c.UserAuctions).FirstOrDefault(c => c.Id == userId);
+            if (user == null) return BadRequest();
+            user.UserAuctions.Remove(auction);
+
+            await _db.SaveChangesAsync();
+            return Ok(true);
+        }
+        [HttpGet("GetAuctionItemToBidWithId/{id}")]
+        public async Task<ActionResult<object>> GetAuctionItemToBidWithId(int id)
+        {
+            var auction = await _db.Auctions.Include(c => c.AuctionBids).Include(c => c.ItemCategories).ThenInclude(c => c.Category).FirstOrDefaultAsync(c => c.Id == id);
+            if (auction == null) return NotFound();
+
+            var result = new
+            {
+                Id = auction.Id,
+                Name = auction.ProductName,
+                Description = auction.ProductDescription,
+                StartDate = auction.AuctionStartDate,
+                EndDate = auction.AuctionEndDate,
+                Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), auction.ImagePath)),
+                HighestBid = auction.AuctionBids.Select(c => c.BidPrice).Max()
+            };
+            return Ok(result);
         }
     }
 }

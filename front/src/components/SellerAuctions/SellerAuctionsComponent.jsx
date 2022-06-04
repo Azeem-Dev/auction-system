@@ -2,7 +2,7 @@ import { Avatar, List, message, Tag } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUtil } from "../../utils/api/auction-system-api";
+import { deleteUtil, getUtil } from "../../utils/api/auction-system-api";
 
 const SellerAuctionsComponent = () => {
   const [listData, setListData] = useState([{}]);
@@ -27,7 +27,7 @@ const AuctionList = ({ listData }) => {
     console.log(listData);
   }, [listData]);
 
-  const IconText = ({ icon, text, url, data }) => (
+  const IconText = ({ icon, text, url, data, apiCall = false }) => (
     <div
       style={{
         fontSize: "18px",
@@ -36,7 +36,13 @@ const AuctionList = ({ listData }) => {
         justifyContent: "center",
         alignItems: "center",
       }}
-      onClick={() => navigate(url, { state: data })}
+      onClick={() => {
+        if (!apiCall) {
+          navigate(url, { state: data });
+        } else {
+          deleteUtil(url).then((c) => console.log(c));
+        }
+      }}
       className="bid-now-list-button"
     >
       {React.createElement(icon)}
@@ -71,6 +77,10 @@ const AuctionList = ({ listData }) => {
                   icon={DeleteOutlined}
                   text="Delete Auction"
                   key="list-vertical-star-o"
+                  apiCall={true}
+                  url={`auctions/DeleteAuction/${
+                    item?.id
+                  }/${localStorage.getItem("userId")}`}
                 />,
               ]}
               extra={
