@@ -22,7 +22,7 @@ const LoginComponent = ({ isAdmin = false }) => {
       })
         .then((c) => {
           localStorage.setItem("userId", c.data);
-          navigate("/home");
+          navigate("/");
         })
         .catch((err) => {
           message.error(err.response.data);

@@ -17,6 +17,8 @@ const LinkStyles = {
 };
 const NavBar = () => {
   const [Location, setLocation] = useState("/");
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
   useLocationChange((location) => {
     setLocation(location.pathname);
   });
@@ -25,7 +27,14 @@ const NavBar = () => {
     active: true,
   };
 
-  useEffect(() => {}, [Location]);
+  useEffect(() => {
+    let userId = localStorage.getItem("userId");
+    if (userId) {
+      setIsUserLoggedIn(true);
+    } else {
+      setIsUserLoggedIn(false);
+    }
+  }, [Location]);
   return (
     <>
       <Navbar bg="primary" variant="dark" sticky="top" style={{}}>
@@ -50,11 +59,6 @@ const NavBar = () => {
                 Auctions
               </Link>
             </Nav.Link>
-            {/* <Nav.Link as="div" {...(Location == "/featured" ? inputProps : {})}>
-              <Link to="/featured" style={LinkStyles}>
-                Featured
-              </Link>
-            </Nav.Link> */}
             <Nav.Link as="div" {...(Location == "/sell" ? inputProps : {})}>
               <Link to="/sell" style={LinkStyles}>
                 Sell
@@ -95,7 +99,10 @@ const NavBar = () => {
                 : {})}
             >
               <NavDropdown.Item
-                style={{ display: "inline-flex", alignItems: "center" }}
+                style={{
+                  display: `${isUserLoggedIn ? "none" : "inline-flex"}`,
+                  alignItems: "center",
+                }}
                 as="div"
               >
                 <Link to="/login" style={LinkStyles}>
@@ -104,7 +111,10 @@ const NavBar = () => {
                 </Link>
               </NavDropdown.Item>
               <NavDropdown.Item
-                style={{ display: "inline-flex", alignItems: "center" }}
+                style={{
+                  display: `${isUserLoggedIn ? "none" : "inline-flex"}`,
+                  alignItems: "center",
+                }}
                 as="div"
               >
                 <Link to="/login/admin" style={LinkStyles}>
@@ -113,7 +123,10 @@ const NavBar = () => {
                 </Link>
               </NavDropdown.Item>
               <NavDropdown.Item
-                style={{ display: "inline-flex", alignItems: "center" }}
+                style={{
+                  display: `${!isUserLoggedIn ? "none" : "inline-flex"}`,
+                  alignItems: "center",
+                }}
                 as="div"
               >
                 <Link to="/myauctions" style={LinkStyles}>
@@ -122,7 +135,10 @@ const NavBar = () => {
                 </Link>
               </NavDropdown.Item>
               <NavDropdown.Item
-                style={{ display: "inline-flex", alignItems: "center" }}
+                style={{
+                  display: `${!isUserLoggedIn ? "none" : "inline-flex"}`,
+                  alignItems: "center",
+                }}
                 as="div"
               >
                 <Link to="/logout" style={LinkStyles}>

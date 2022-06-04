@@ -32,21 +32,6 @@ const CategoryComponent = ({ categoryId, subcategoryid }) => {
           </Col>
         </Row>
       </Container>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "50px 0 0 0",
-        }}
-      >
-        <Pagination
-          showSizeChanger
-          onShowSizeChange={onShowSizeChange}
-          defaultCurrent={3}
-          total={100}
-        />
-      </div>
     </>
   );
 };

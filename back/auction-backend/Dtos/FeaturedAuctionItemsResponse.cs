@@ -9,5 +9,8 @@
         public string EndDate { get; set; }
         public decimal HigestBid { get; set; }
         public byte[] Image { get; set; }
+        public List<string> Categories { get; set; }
+        public decimal StartingBid { get; set; }
+        public decimal MarketValue { get; set; }
     }
 }

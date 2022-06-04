@@ -32,7 +32,8 @@ const beforeUpload = (file) => {
 };
 
 const { Option } = Select;
-const SellComponent = () => {
+const SellComponent = ({ isEditView = false, auctiondata = null }) => {
+  console.log(auctiondata);
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const [imagePath, setImagePath] = useState("");
@@ -52,6 +53,22 @@ const SellComponent = () => {
       .catch((err) => console.error(err));
   }, []);
 
+  useEffect(() => {
+    if (isEditView && auctiondata) {
+      setData();
+    }
+  }, [auctiondata]);
+
+  const setData = () => {
+    setImageUrl(`data:image/jpeg;base64,${auctiondata?.image}`);
+    setSelectedCategory(auctiondata.categories[0]);
+    setProductName(auctiondata?.name);
+    setProductDescription(auctiondata?.description);
+    setStartingBid(auctiondata?.startingBid);
+    setMarketValue(auctiondata?.marketValue);
+    setStartDate(auctiondata?.startDate);
+    setEndDate(auctiondata?.EndDate);
+  };
   const AddAuctionItem = () => {
     console.log("AddAuctionItem");
 
@@ -80,7 +97,7 @@ const SellComponent = () => {
           EndDate: endDate,
           ImagePath: imagePath,
           UserId: userId,
-          CategoryId:selectedCategory
+          CategoryId: selectedCategory,
         };
 
         postUtil(apiUrl, requestItem)
@@ -89,6 +106,44 @@ const SellComponent = () => {
       }
     }
   };
+
+  const UpdateAuctionItem=()=>{
+    debugger;
+    if (
+      imageUrl == "" &&
+      productName == "" &&
+      productDescription == "" &&
+      startingBid == 0.0 &&
+      marketValue == 0.0 &&
+      startDate == "" &&
+      endDate == ""
+    ) {
+      message.error("All Fields are required");
+    } else {
+      let userId = localStorage.getItem("userId");
+      if (userId == null || userId == "") {
+        message.error("Please Login to add a new Auction Item");
+      } else {
+        let apiUrl = "Auctions/UpdateAuctionItem";
+        const requestItem = {
+          id:auctiondata.id,
+          ProductName: productName,
+          ProductDescription: productDescription,
+          StartingBid: startingBid,
+          MarketValue: marketValue,
+          StartingDate: startDate,
+          EndDate: endDate,
+          ImagePath: imagePath,
+          UserId: userId,
+          CategoryId: selectedCategory,
+        };
+
+        postUtil(apiUrl, requestItem)
+          .then((c) => console.log(c))
+          .catch((err) => console.log(err));
+      }
+    }
+  }
 
   const handleChange = (info) => {
     console.log(info);
@@ -180,6 +235,7 @@ const SellComponent = () => {
           onSelect={(e) => {
             setSelectedCategory(e);
           }}
+          value={selectedCategory}
         >
           {categories.map((category) => {
             return (
@@ -241,7 +297,7 @@ const SellComponent = () => {
           fontSize: "18px",
           fontWeight: "400",
         }}
-        onClick={AddAuctionItem}
+        onClick={isEditView ? UpdateAuctionItem: AddAuctionItem}
       >
         Submit
       </Button>

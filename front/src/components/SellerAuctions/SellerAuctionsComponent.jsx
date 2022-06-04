@@ -1,45 +1,33 @@
-import { Avatar, List, Tag } from "antd";
+import { Avatar, List, message, Tag } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getUtil } from "../../utils/api/auction-system-api";
 
 const SellerAuctionsComponent = () => {
+  const [listData, setListData] = useState([{}]);
+
+  useEffect(() => {
+    getUtil("auctions/GetUserAuctionItems/" + localStorage.getItem("userId"))
+      .then((c) => {
+        setListData(c.data[0]);
+      })
+      .catch((err) => message.error("something went wrong"));
+  }, []);
   return (
     <div style={{ marginLeft: "10px" }}>
-      <AuctionList />
+      <AuctionList listData={listData} />
     </div>
   );
 };
 
-const AuctionList = () => {
-  const listData = [];
-  for (let i = 0; i < 23; i++) {
-    listData.push({
-      id: i,
-      href: "https://ant.design",
-      title: `Item Name`,
-      avatar: "https://joeschmoe.io/api/v1/random",
-      tags: [
-        <Tag color="magenta">magenta</Tag>,
-        <Tag color="red">red</Tag>,
-        <Tag color="volcano">volcano</Tag>,
-        <Tag color="orange">orange</Tag>,
-        <Tag color="gold">gold</Tag>,
-        <Tag color="lime">lime</Tag>,
-        <Tag color="green">green</Tag>,
-        <Tag color="cyan">cyan</Tag>,
-        <Tag color="blue">blue</Tag>,
-        <Tag color="geekblue">geekblue</Tag>,
-        <Tag color="purple">purple</Tag>,
-        <Tag color="#f50">#f50</Tag>,
-        <Tag color="#2db7f5">#2db7f5</Tag>,
-        <Tag color="#87d068">#87d068</Tag>,
-        <Tag color="#108ee9">#108ee9</Tag>,
-      ],
-      content:
-        "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
-    });
-  }
-  const IconText = ({ icon, text }) => (
+const AuctionList = ({ listData }) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log(listData);
+  }, [listData]);
+
+  const IconText = ({ icon, text, url, data }) => (
     <div
       style={{
         fontSize: "18px",
@@ -48,6 +36,7 @@ const AuctionList = () => {
         justifyContent: "center",
         alignItems: "center",
       }}
+      onClick={() => navigate(url, { state: data })}
       className="bid-now-list-button"
     >
       {React.createElement(icon)}
@@ -63,40 +52,52 @@ const AuctionList = () => {
           onChange: (page) => {
             console.log(page);
           },
-          pageSize: 3,
+          pageSize: 5,
         }}
         dataSource={listData}
-        renderItem={(item) => (
-          <List.Item
-            key={item.id}
-            actions={[
-              <IconText
-                icon={EditOutlined}
-                text="Edit Auction"
-                key="list-vertical-star-o"
-              />,
-              <IconText
-                icon={DeleteOutlined}
-                text="Delete Auction"
-                key="list-vertical-star-o"
-              />,
-            ]}
-            extra={
-              <img
-                width={272}
-                alt="logo"
-                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+        renderItem={(item) => {
+          return (
+            <List.Item
+              key={item.id}
+              actions={[
+                <IconText
+                  icon={EditOutlined}
+                  text="Edit Auction"
+                  key="list-vertical-star-o"
+                  url="/edit-auction"
+                  data={item}
+                />,
+                <IconText
+                  icon={DeleteOutlined}
+                  text="Delete Auction"
+                  key="list-vertical-star-o"
+                />,
+              ]}
+              extra={
+                <div style={{ width: "272px", height: "272px" }}>
+                  <img
+                    style={{
+                      objectFit: "cover",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                    alt="logo"
+                    src={`data:image/jpeg;base64,${item?.image}`}
+                  />
+                </div>
+              }
+            >
+              <List.Item.Meta
+                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                title={<a>{item?.name}</a>}
+                description={item?.categories?.map((cat) => (
+                  <Tag color="#108ee9">{cat}</Tag>
+                ))}
               />
-            }
-          >
-            <List.Item.Meta
-              avatar={<Avatar src={item.avatar} />}
-              title={<a href={item.href}>{item.title}</a>}
-              description={item.tags.map((tag) => tag)}
-            />
-            {item.content}
-          </List.Item>
-        )}
+              {item?.description}
+            </List.Item>
+          );
+        }}
       />
     </div>
   );

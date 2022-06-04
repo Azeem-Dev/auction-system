@@ -1,9 +1,9 @@
 ﻿using auction_backend.Dtos;
 using auction_backend.Ef_Core;
 using auction_backend.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace auction_backend.Controllers
 {
@@ -43,6 +43,35 @@ namespace auction_backend.Controllers
             await _db.SaveChangesAsync();
             return Ok();
         }
+
+        [HttpPost("UpdateAuctionItem")]
+        public async Task<ActionResult<bool>> UpdateAuctionItem(AddNewAuctionItemRequest req)
+        {
+            var user = _db.Users.Include(c => c.UserAuctions).ThenInclude(c=>c.ItemCategories).FirstOrDefault(c => c.Id == req.UserId);
+            if (user == null) return BadRequest();
+
+            var selectedAuction = user.UserAuctions.FirstOrDefault(c => c.Id == req.Id);
+            if(selectedAuction == null) return BadRequest();
+
+
+            selectedAuction.ProductName = req.ProductName;
+            selectedAuction.ProductDescription = req.ProductDescription;
+            selectedAuction.AuctionStartDate = req.StartingDate;
+            selectedAuction.AuctionEndDate = req.EndDate;
+            selectedAuction.MarketValue = req.MarketValue;
+            selectedAuction.StartingBid= req.StartingBid;
+            selectedAuction.ImagePath = string.IsNullOrEmpty(req.ImagePath) ? selectedAuction.ImagePath : req.ImagePath;
+            selectedAuction.ItemCategories.RemoveAll(c=>true);
+            selectedAuction.ItemCategories.Add(new ItemCategories
+            {
+                CategoryId = req.CategoryId,
+            });
+
+            await _db.SaveChangesAsync();;
+            return Ok();
+        }
+
+
         [HttpGet("GetFeaturedAuctionItems/{number}")]
         public async Task<ActionResult<List<FeaturedAuctionItemsResponse>>> GetFeaturedItems([FromRoute] int number)
         {
@@ -61,16 +90,22 @@ namespace auction_backend.Controllers
         public async Task<ActionResult<List<FeaturedAuctionItemsResponse>>> GetUserAuctionItems(int userId)
         {
             if (!_db.Users.Any(c => c.Id == userId)) return BadRequest();
+
+            var returnAuctions = _db.Users.Include(c => c.UserAuctions).ThenInclude(c => c.ItemCategories).ThenInclude(c => c.Category).ThenInclude(c => c.SubCategories).Where(c => c.Id == userId).Select(c => c.UserAuctions.Select(d => new FeaturedAuctionItemsResponse
+            {
+                Id = d.Id,
+                Description = d.ProductDescription,
+                StartDate = d.AuctionStartDate,
+                EndDate = d.AuctionEndDate,
+                Name = d.ProductName,
+                Categories = d.ItemCategories.Select(c => c.Category.Name).ToList(),
+                Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), d.ImagePath)),
+                StartingBid= d.StartingBid,
+                MarketValue=d.MarketValue,
+            })).ToList();
             return Ok(
 
-                _db.Users.Include(c => c.UserAuctions).Where(c => c.Id == userId).Select(c => c.UserAuctions.Select(d => new FeaturedAuctionItemsResponse
-                {
-                    Id = d.Id,
-                    Description = d.ProductDescription,
-                    StartDate = d.AuctionStartDate,
-                    EndDate = d.AuctionEndDate,
-                    Name = d.ProductName
-                }))
+                returnAuctions
 
                 );
         }

@@ -30,7 +30,7 @@ namespace auction_backend.Controllers
             if (user == null) return NotFound();
             if (user.Password.ToLower() != req.Password.ToLower()) return BadRequest();
             if (!user.IsAdmin) return BadRequest();
-            return Ok(true);
+            return Ok(user.Id);
         }
         [HttpPost("register")]
         public async Task<ActionResult<bool>> Register(RegisterRequest req)
