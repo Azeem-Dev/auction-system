@@ -75,6 +75,26 @@ namespace auction_backend.Controllers
         [HttpGet("GetFeaturedAuctionItems/{number}")]
         public async Task<ActionResult<List<FeaturedAuctionItemsResponse>>> GetFeaturedItems([FromRoute] int number)
         {
+            //var auctions = _db.Auctions.Include(c => c.AuctionBids).OrderBy(r => Guid.NewGuid()).Take(number);
+
+            //List<FeaturedAuctionItemsResponse> response = new List<FeaturedAuctionItemsResponse>();
+            //foreach (var auction in auctions)
+            //{
+            //    response.Add(new FeaturedAuctionItemsResponse
+            //    {
+            //        Id = auction.Id,
+            //        Name = auction.ProductName,
+            //        Description = auction.ProductDescription,
+            //        EndDate = auction.AuctionEndDate,
+            //        StartDate = auction.AuctionStartDate,
+            //        StartingBid = auction.StartingBid,
+            //        MarketValue = auction.MarketValue,
+            //        HigestBid = auction.AuctionBids.Count == 0 ? 0 : auction.AuctionBids.Select(d => d.BidPrice).Max(),
+            //        Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), auction.ImagePath))
+            //    });
+            //}
+
+            //return Ok(response);
             return Ok(_db.Auctions.Include(c => c.AuctionBids).OrderBy(r => Guid.NewGuid()).Take(number).Select(c => new FeaturedAuctionItemsResponse
             {
                 Id = c.Id,
@@ -82,7 +102,9 @@ namespace auction_backend.Controllers
                 Description = c.ProductDescription,
                 EndDate = c.AuctionEndDate,
                 StartDate = c.AuctionStartDate,
-                //HigestBid = c.AuctionBids.Select(d => d.BidPrice).Max(),
+                StartingBid = c.StartingBid,
+                MarketValue = c.MarketValue,
+                HigestBid = c.AuctionBids.Count == 0 ? 0 : c.AuctionBids.Select(d => d.BidPrice).Max(),
                 Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), c.ImagePath))
             }));
         }
@@ -160,7 +182,7 @@ namespace auction_backend.Controllers
                 StartDate = auction.AuctionStartDate,
                 EndDate = auction.AuctionEndDate,
                 Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), auction.ImagePath)),
-                HighestBid = auction.AuctionBids.Select(c => c.BidPrice).Max()
+                HighestBid = auction.AuctionBids.Select(c => c.BidPrice).Max(),
             };
             return Ok(result);
         }

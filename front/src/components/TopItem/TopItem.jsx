@@ -1,10 +1,11 @@
 import { Collapse } from "antd";
 import { Button, Figure } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import Timer from "../Timer/Timer";
 
 const { Panel } = Collapse;
 const TopItem = ({ randomItem }) => {
-  console.log(randomItem);
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -30,6 +31,10 @@ const TopItem = ({ randomItem }) => {
         <Button
           variant="primary"
           style={{ width: "220px", marginBottom: "20px" }}
+          onClick={() => {
+            localStorage.setItem("bid-item", JSON.stringify(randomItem));
+            navigate("/bid-now/" + randomItem.id);
+          }}
         >
           Start Bidding
         </Button>

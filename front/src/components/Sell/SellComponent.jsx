@@ -108,7 +108,6 @@ const SellComponent = ({ isEditView = false, auctiondata = null }) => {
   };
 
   const UpdateAuctionItem=()=>{
-    debugger;
     if (
       imageUrl == "" &&
       productName == "" &&

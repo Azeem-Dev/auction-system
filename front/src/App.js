@@ -5,6 +5,7 @@ import NavBar from "./components/navbar/NavBar";
 import AddCategory from "./pages/AddCategory";
 import AdminLogin from "./pages/AdminLogin";
 import Auctions from "./pages/Auctions";
+import BidNow from "./pages/BidNow";
 import Category from "./pages/Category";
 import Featured from "./pages/Featured";
 import Home from "./pages/Home";
@@ -43,6 +44,7 @@ const Layout = () => (
       <Route path="/add-category" element={<AddCategory />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/edit-auction" element={<Sell />} />
+      <Route path="/bid-now/:itemId" element={<BidNow />} />
     </Routes>
     <Footer />
   </>

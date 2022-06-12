@@ -3,19 +3,20 @@ import { List, Avatar, Space, Tag, message } from "antd";
 import { FireOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import { getUtil } from "../../utils/api/auction-system-api";
+import { useNavigate } from "react-router-dom";
 const AuctionsComponent = () => {
+  const navigate = useNavigate();
   const [listData, setListData] = useState([{}]);
 
   useEffect(() => {
     getUtil("auctions/GetAllAuctions")
       .then((c) => {
         setListData(c.data);
-        console.log(c.data);
       })
       .catch((err) => message.error("something went wrong"));
   }, []);
 
-  const IconText = ({ icon, text }) => (
+  const IconText = ({ icon, text, click }) => (
     <div
       style={{
         fontSize: "18px",
@@ -24,6 +25,7 @@ const AuctionsComponent = () => {
         justifyContent: "center",
         alignItems: "center",
       }}
+      onClick={click}
       className="bid-now-list-button"
     >
       {React.createElement(icon)}
@@ -51,6 +53,10 @@ const AuctionsComponent = () => {
                 icon={FireOutlined}
                 text="Bid Now"
                 key="list-vertical-star-o"
+                click={() => {
+                  localStorage.setItem("bid-item", JSON.stringify(item));
+                  navigate("/bid-now/" + item.id);
+                }}
               />,
             ]}
             extra={

@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import { Accordion, Button, Card } from "react-bootstrap";
 
 const FeaturedProduct = ({ item }) => {
+  const navigate = useNavigate();
   return (
     <>
       <Card style={{ width: "18rem" }}>
@@ -17,7 +19,15 @@ const FeaturedProduct = ({ item }) => {
             {item?.description?.substring(0, 100)}
             ...
           </Card.Text>
-          <Button variant="primary">Start Bidding</Button>
+          <Button
+            variant="primary"
+            onClick={() => {
+              localStorage.setItem("bid-item", JSON.stringify(item));
+              navigate("/bid-now/" + item.id);
+            }}
+          >
+            Start Bidding
+          </Button>
         </Card.Body>
         <Accordion flush>
           <Accordion.Item eventKey="0">

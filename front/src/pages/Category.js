@@ -3,6 +3,7 @@ import CategoryComponent from "../components/Category/CategoryComponent";
 
 const Category = () => {
   let { categoryId, subcategoryId } = useParams();
+  console.log(categoryId, subcategoryId);
   return (
     <div
       style={{

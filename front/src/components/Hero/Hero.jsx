@@ -2,9 +2,10 @@ import "./Hero.css";
 import { Card } from "react-bootstrap";
 import Timer from "../Timer/Timer";
 import BidNowButton from "../BidNowButton/BidNowButton";
+import { useNavigate } from "react-router-dom";
 
 const Hero = ({ ImgUrl, item }) => {
-  console.log(item);
+  const navigate = useNavigate();
   return (
     <>
       <Card
@@ -38,7 +39,12 @@ const Hero = ({ ImgUrl, item }) => {
             {item?.description?.substring(0, 100)}...
           </Card.Text>
           <Timer />
-          <BidNowButton />
+          <BidNowButton
+            click={() => {
+              localStorage.setItem("bid-item", JSON.stringify(item));
+              navigate("/bid-now/" + item.id);
+            }}
+          />
         </Card.ImgOverlay>
       </Card>
     </>

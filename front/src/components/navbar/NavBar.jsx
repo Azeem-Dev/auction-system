@@ -147,7 +147,11 @@ const NavBar = () => {
                 </Link>
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link as="div" {...(Location == "/register" ? inputProps : {})}>
+            <Nav.Link
+              as="div"
+              {...(Location == "/register" ? inputProps : {})}
+              style={{ display: `${isUserLoggedIn ? "none" : "block"}` }}
+            >
               <Link to="/register" style={LinkStyles}>
                 Register
               </Link>

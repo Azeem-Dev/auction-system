@@ -1,6 +1,6 @@
 import { FireOutlined } from "@ant-design/icons";
 import "./BidNowButton.css";
-const BidNowButton = () => {
+const BidNowButton = ({ click }) => {
   return (
     <>
       {" "}
@@ -11,6 +11,7 @@ const BidNowButton = () => {
           justifyContent: "center",
           alignItems: "center",
         }}
+        onClick={() => click()}
       >
         <FireOutlined
           style={{ color: "#EF2D56", fontSize: "20px", margin: "0 10px" }}

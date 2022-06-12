@@ -101,12 +101,46 @@ namespace auction_backend.Controllers
             });
             return Ok(categoryItems);
         }
-
-        [HttpGet("GetAuctionItemsByCategoryId/{id}")]
-        public async Task<ActionResult<object>> GetAuctionItemsByCategoryId([FromRoute]int id)
+        [HttpGet("GetAuctionItemsByCategoryId/{id}/{isSubCategory}")]
+        public async Task<ActionResult<object>> GetAuctionItemsByCategoryId([FromRoute] int id, bool isSubCategory)
         {
-            //_db.ItemCategories.Inc
-            return Ok();
+            var auctionCat = _db.ItemCategories.Include(c => c.AuctionItem).Include(c => c.Category).ThenInclude(c => c.SubCategories).Where(c => c.CategoryId == id);
+            if (isSubCategory)
+            {
+
+                var categoryId = (await _db.SubCategories.FirstOrDefaultAsync(c => c.Id == id)).CategoryId;
+                var auctionItems1 = _db.ItemCategories.Include(c => c.AuctionItem).ThenInclude(c => c.AuctionBids).Where(c => c.CategoryId == categoryId)
+
+                    .Select(c => new FeaturedAuctionItemsResponse
+                    {
+                        Id = c.AuctionItem.Id,
+                        Name = c.AuctionItem.ProductName,
+                        Description = c.AuctionItem.ProductDescription,
+                        EndDate = c.AuctionItem.AuctionEndDate,
+                        StartDate = c.AuctionItem.AuctionStartDate,
+                        StartingBid = c.AuctionItem.StartingBid,
+                        MarketValue = c.AuctionItem.MarketValue,
+                        HigestBid = c.AuctionItem.AuctionBids.Count == 0 ? 0 : c.AuctionItem.AuctionBids.Select(d => d.BidPrice).Max(),
+                        Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), c.AuctionItem.ImagePath))
+                    });
+                return Ok(auctionItems1);
+            }
+            var auctionItems = _db.ItemCategories.Include(c => c.AuctionItem).ThenInclude(c => c.AuctionBids).Where(c => c.CategoryId == id)
+
+                                .Select(c => new FeaturedAuctionItemsResponse
+                                {
+                                    Id = c.AuctionItem.Id,
+                                    Name = c.AuctionItem.ProductName,
+                                    Description = c.AuctionItem.ProductDescription,
+                                    EndDate = c.AuctionItem.AuctionEndDate,
+                                    StartDate = c.AuctionItem.AuctionStartDate,
+                                    StartingBid = c.AuctionItem.StartingBid,
+                                    MarketValue = c.AuctionItem.MarketValue,
+                                    HigestBid = c.AuctionItem.AuctionBids.Count == 0 ? 0 : c.AuctionItem.AuctionBids.Select(d => d.BidPrice).Max(),
+                                    Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), c.AuctionItem.ImagePath))
+                                });
+            return Ok(auctionItems);
+
         }
     }
 }
