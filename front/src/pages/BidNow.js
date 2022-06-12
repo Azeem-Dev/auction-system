@@ -1,13 +1,21 @@
-import { Image, Input, InputNumber, Button } from "antd";
+import { Image, Input, InputNumber, Button, message } from "antd";
 import { DollarOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
+import { postUtil } from "../utils/api/auction-system-api";
+import { useNavigate } from "react-router-dom";
 const BidNow = () => {
+  const navigate = useNavigate();
   const { TextArea } = Input;
 
   const [bidItem, setbidItem] = useState({});
+  const [amount, setAmount] = useState(0);
   useEffect(() => {
     let item = JSON.parse(localStorage.getItem("bid-item"));
     setbidItem(item);
+    setAmount(
+      bidItem?.higestBid == 0 ? bidItem?.startingBid : bidItem?.higestBid + 1
+    );
+    console.log(bidItem);
   }, []);
   return (
     <div
@@ -82,19 +90,41 @@ const BidNow = () => {
             min={
               bidItem?.higestBid == 0
                 ? bidItem?.startingBid
-                : bidItem?.higestBid
+                : bidItem?.higestBid + 1
             }
             max={1000000}
             keyboard
             defaultValue={
               bidItem?.higestBid == 0
                 ? bidItem?.startingBid
-                : bidItem?.higestBid
+                : bidItem?.higestBid + 1
             }
+            value={amount}
+            onChange={(e) => setAmount(e)}
           />
         </div>
 
-        <Button type="primary" size="large">
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => {
+            var userId = localStorage.getItem("userId");
+            var auctionId = bidItem?.id;
+            var bidAmount = amount;
+            if (userId == null || userId == undefined || userId == 0) {
+              message.error("Please Signup/Login to bid");
+              return;
+            }
+
+            postUtil("Bid", {
+              bidAmount,
+              auctionId,
+              userId,
+            })
+              .then((c) => navigate("/"))
+              .catch((err) => message.error(err.response.data));
+          }}
+        >
           Bid Now
         </Button>
       </div>

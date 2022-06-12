@@ -22,6 +22,9 @@ const LoginComponent = ({ isAdmin = false }) => {
       })
         .then((c) => {
           localStorage.setItem("userId", c.data);
+          if(isAdmin) {
+            localStorage.setItem("isAdmin",true);
+          }
           navigate("/");
         })
         .catch((err) => {

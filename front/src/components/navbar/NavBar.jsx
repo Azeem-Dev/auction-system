@@ -18,6 +18,7 @@ const LinkStyles = {
 const NavBar = () => {
   const [Location, setLocation] = useState("/");
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useLocationChange((location) => {
     setLocation(location.pathname);
@@ -29,10 +30,17 @@ const NavBar = () => {
 
   useEffect(() => {
     let userId = localStorage.getItem("userId");
+    let admin = localStorage.getItem("isAdmin");
+
     if (userId) {
       setIsUserLoggedIn(true);
     } else {
       setIsUserLoggedIn(false);
+    }
+    if (admin) {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
     }
   }, [Location]);
   return (
@@ -59,12 +67,19 @@ const NavBar = () => {
                 Auctions
               </Link>
             </Nav.Link>
-            <Nav.Link as="div" {...(Location == "/sell" ? inputProps : {})}>
+            <Nav.Link
+              as="div"
+              {...(Location == "/sell" ? inputProps : {})}
+              style={{ display: `${isUserLoggedIn ? "block" : "none"}` }}
+            >
               <Link to="/sell" style={LinkStyles}>
                 Sell
               </Link>
             </Nav.Link>
             <Nav.Link
+              style={{
+                display: `${isAdmin ? "block" : "none"}`,
+              }}
               as="div"
               {...(Location == "/add-category" ? inputProps : {})}
             >

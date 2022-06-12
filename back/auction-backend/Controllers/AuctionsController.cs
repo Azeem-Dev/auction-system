@@ -143,6 +143,9 @@ namespace auction_backend.Controllers
                     ProductName = c.ProductName,
                     Description = c.ProductDescription,
                     Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), c.ImagePath)),
+                    StartingBid = c.StartingBid,
+                    MarketValue = c.MarketValue,
+                    HigestBid = c.AuctionBids.Count == 0 ? 0 : c.AuctionBids.Select(d => d.BidPrice).Max(),
                     Categories = c.ItemCategories.Select(d => new Category
                     {
                         Id = d.CategoryId,
@@ -182,7 +185,7 @@ namespace auction_backend.Controllers
                 StartDate = auction.AuctionStartDate,
                 EndDate = auction.AuctionEndDate,
                 Image = System.IO.File.ReadAllBytes(Path.Join(Directory.GetCurrentDirectory(), auction.ImagePath)),
-                HighestBid = auction.AuctionBids.Select(c => c.BidPrice).Max(),
+                HigestBid = auction.AuctionBids.Count == 0 ? 0 : auction.AuctionBids.Select(d => d.BidPrice).Max()
             };
             return Ok(result);
         }
