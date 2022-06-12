@@ -18,7 +18,7 @@ namespace auction_backend.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<int>> Login(LoginRequest req)
         {
-            var user = _db.Users.FirstOrDefault(c => c.UserName.ToLower() == req.UsernameOrEmail.ToLower() || c.Email.ToLower() == req.UsernameOrEmail.ToLower());
+            var user = _db.Users.Where(c=>!c.IsDeleted).FirstOrDefault(c => c.UserName.ToLower() == req.UsernameOrEmail.ToLower() || c.Email.ToLower() == req.UsernameOrEmail.ToLower());
             if (user == null) return NotFound();
             if (user.Password.ToLower() != req.Password.ToLower()) return BadRequest();
             if (user.IsAdmin) return BadRequest();
