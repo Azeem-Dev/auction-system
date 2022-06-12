@@ -3,6 +3,7 @@ import "./App.css";
 import Footer from "./components/Footer/Footer";
 import NavBar from "./components/navbar/NavBar";
 import AddCategory from "./pages/AddCategory";
+import AdminDashboard from "./pages/AdminDashboard";
 import AdminLogin from "./pages/AdminLogin";
 import Auctions from "./pages/Auctions";
 import BidNow from "./pages/BidNow";
@@ -45,6 +46,7 @@ const Layout = () => (
       <Route path="/logout" element={<Logout />} />
       <Route path="/edit-auction" element={<Sell />} />
       <Route path="/bid-now/:itemId" element={<BidNow />} />
+      <Route path="/admin-dashboard" element={<AdminDashboard />} />
     </Routes>
     <Footer />
   </>

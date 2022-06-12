@@ -21,6 +21,7 @@ namespace auction_backend.Controllers
             var user = _db.Users.FirstOrDefault(c => c.UserName.ToLower() == req.UsernameOrEmail.ToLower() || c.Email.ToLower() == req.UsernameOrEmail.ToLower());
             if (user == null) return NotFound();
             if (user.Password.ToLower() != req.Password.ToLower()) return BadRequest();
+            if (user.IsAdmin) return BadRequest();
             return Ok(user.Id);
         }
         [HttpPost("admin-login")]

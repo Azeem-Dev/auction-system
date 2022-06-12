@@ -1,6 +1,12 @@
+import { useEffect, useState } from "react";
 import UserTable from "../components/UserTable/UserTable";
+import { getUtil } from "../utils/api/auction-system-api";
 
 const AdminDashboard = () => {
+  const [usersList, setUsersList] = useState([{}]);
+  useEffect(() => {
+    getUtil("users").then((c) => setUsersList(c.data));
+  }, []);
   return (
     <div
       style={{
@@ -16,7 +22,7 @@ const AdminDashboard = () => {
       >
         Admin Dashboard
       </h1>
-      <UserTable data={{}} />
+      <UserTable data={usersList} />
     </div>
   );
 };

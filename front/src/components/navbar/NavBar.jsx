@@ -87,6 +87,19 @@ const NavBar = () => {
                 Add Category
               </Link>
             </Nav.Link>
+
+            <Nav.Link
+              style={{
+                display: `${isAdmin ? "block" : "none"}`,
+              }}
+              as="div"
+              {...(Location == "/admin-dashboard" ? inputProps : {})}
+            >
+              <Link to="/admin-dashboard" style={LinkStyles}>
+                Dashboard
+              </Link>
+            </Nav.Link>
+
             <Nav.Link
               as="div"
               {...(Location.includes("categories") ? inputProps : {})}
